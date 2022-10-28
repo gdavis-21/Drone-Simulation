@@ -10,15 +10,12 @@ interface Farm{
     public void changeLength(double newLength);
     public void changeWidth(double newWidth);
     public void changeHeight(double newHeight);
-}
-
-interface farmContainers extends Farm{
     public void addItemContainer(itemContainer ItemContainer);
     public void deleteItemContainer(itemContainer ItemContainer);
     public void addItem(item Item);
 }
 
-class itemContainer implements farmContainers{
+class itemContainer implements Farm{
 
     private String name;
     private double price;
