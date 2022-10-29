@@ -1,8 +1,7 @@
 package com.barishal;
 
 import java.io.IOException;
-
-import com.barishal.view.DashboardViewController;
+import com.barishal.view.Singleton;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +29,7 @@ public class MainApp extends Application {
 	public void initRootLayout() {
 		try {
 			
-			DashboardViewController dashboardViewController = DashboardViewController.getDashboardViewController();
+			Singleton dashboardViewController = Singleton.getInstance();
 			
 			// Load RootLayout from FXML file.
 			FXMLLoader loader = new FXMLLoader();
