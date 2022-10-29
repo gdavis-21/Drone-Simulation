@@ -97,10 +97,12 @@ public class Singleton {
 		
 		// ########################################## Event Handlers ##########################################
 		
-		// Occurs when user clicks an item inside the tree view.
+		// Occurs when user clicks an item on the tree view.
 		EventHandler<MouseEvent> onTreeViewClick = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
+				
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				
 				if (selectedItem != null) {
 					if (selectedItem.getValue() instanceof itemContainer) {
 						buttonsLabel.setText("Item Container Commands");
@@ -121,8 +123,10 @@ public class Singleton {
 		// Occurs when user clicks the rename button.
 		EventHandler<ActionEvent> onRename = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
+				
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
-				// Check to see if an item on the tree view has been selected
+				
+				// Check to see if the user has selected an item on the tree view.
 				if (selectedItem != null) {
 					TextInputDialog tDialog = new TextInputDialog(selectedItem.getValue().toString());
 					tDialog.setTitle("Rename");
@@ -145,7 +149,6 @@ public class Singleton {
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
 				
 				if (selectedItem != null) {
-					
 					Dialog<Pair<String, String>> tDialog = new Dialog<>();
 					tDialog.setTitle("Change Location");
 					tDialog.setHeaderText("Enter the New Location:");
@@ -193,7 +196,6 @@ public class Singleton {
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
 				
 				if (selectedItem != null) {
-					
 					TextInputDialog tDialog = new TextInputDialog(selectedItem.getValue().getPrice().toString());
 					tDialog.setTitle("Change Price");
 					tDialog.setHeaderText("Enter the New Price:");
@@ -208,44 +210,49 @@ public class Singleton {
 		};
 		
 		// Occurs when user clicks the change dimensions button.
+		// I modeled the dialog view after https://code.makery.ch/blog/javafx-dialogs-official/
 		EventHandler<ActionEvent> onChangeDimensions = new EventHandler<ActionEvent>() {
-			// I modeled the dialog view after https://code.makery.ch/blog/javafx-dialogs-official/
 			public void handle(ActionEvent e) {
-				Dialog<Pair<String, String>> tDialog = new Dialog<>();
-				tDialog.setTitle("Change Dimensions");
-				tDialog.setHeaderText("Enter the New Dimensions:");
 				
-				ButtonType saveButtonType = new ButtonType("OK", ButtonData.OK_DONE);
-				tDialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
 				
-				GridPane gridPane = new GridPane();
-				gridPane.setHgap(10);
-				gridPane.setVgap(10);
-				gridPane.setPadding(new Insets(20, 75, 10, 10));
-				
-				TextField length = new TextField();
-				length.setText(treeView.getSelectionModel().getSelectedItem().getValue().getLength().toString());
-				TextField width = new TextField();
-				width.setText(treeView.getSelectionModel().getSelectedItem().getValue().getWidth().toString());
-				
-				gridPane.add(new Label("Length:"), 0, 0);
-				gridPane.add(length, 1, 0);
-				gridPane.add(new Label("Width"), 0, 1);
-				gridPane.add(width, 1, 1);
-				
-				tDialog.getDialogPane().setContent(gridPane);
-				
-				tDialog.setResultConverter(dialogButton ->  {
-					if (dialogButton == saveButtonType) {
-						return new Pair<String, String>(length.getText(), width.getText());
+				if (selectedItem != null) {
+					Dialog<Pair<String, String>> tDialog = new Dialog<>();
+					tDialog.setTitle("Change Dimensions");
+					tDialog.setHeaderText("Enter the New Dimensions:");
+					
+					ButtonType saveButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+					tDialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+					
+					GridPane gridPane = new GridPane();
+					gridPane.setHgap(10);
+					gridPane.setVgap(10);
+					gridPane.setPadding(new Insets(20, 75, 10, 10));
+					
+					TextField length = new TextField();
+					length.setText(treeView.getSelectionModel().getSelectedItem().getValue().getLength().toString());
+					TextField width = new TextField();
+					width.setText(treeView.getSelectionModel().getSelectedItem().getValue().getWidth().toString());
+					
+					gridPane.add(new Label("Length:"), 0, 0);
+					gridPane.add(length, 1, 0);
+					gridPane.add(new Label("Width"), 0, 1);
+					gridPane.add(width, 1, 1);
+					
+					tDialog.getDialogPane().setContent(gridPane);
+					
+					tDialog.setResultConverter(dialogButton ->  {
+						if (dialogButton == saveButtonType) {
+							return new Pair<String, String>(length.getText(), width.getText());
+						}
+						return null;
+					});
+					
+					Optional<Pair<String, String>> resultOptional = tDialog.showAndWait();
+					if (resultOptional.isPresent()) {
+						treeView.getSelectionModel().getSelectedItem().getValue().changeLength((Double.parseDouble(resultOptional.get().getKey())));
+						treeView.getSelectionModel().getSelectedItem().getValue().changeWidth(Double.parseDouble(resultOptional.get().getValue()));
 					}
-					return null;
-				});
-				
-				Optional<Pair<String, String>> resultOptional = tDialog.showAndWait();
-				if (resultOptional.isPresent()) {
-					treeView.getSelectionModel().getSelectedItem().getValue().changeLength((Double.parseDouble(resultOptional.get().getKey())));
-					treeView.getSelectionModel().getSelectedItem().getValue().changeWidth(Double.parseDouble(resultOptional.get().getValue()));
 				}
 				
 			}
@@ -255,13 +262,17 @@ public class Singleton {
 		EventHandler<ActionEvent> onAddItem = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				
-				TextInputDialog tDialog = new TextInputDialog();
-				tDialog.setTitle("Add Item");
-				tDialog.setHeaderText("Enter the Name of the New Item:");
-				tDialog.setContentText("Name:");
-				Optional<String> resultOptional = tDialog.showAndWait();
-				if (resultOptional.isPresent()) {
-					treeView.getSelectionModel().getSelectedItem().getChildren().add(new TreeItem<Farm>(new item(resultOptional.get(), 0, 0, 0, 0, 0, 0)));
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				
+				if (selectedItem != null) {
+					TextInputDialog tDialog = new TextInputDialog();
+					tDialog.setTitle("Add Item");
+					tDialog.setHeaderText("Enter the Name of the New Item:");
+					tDialog.setContentText("Name:");
+					Optional<String> resultOptional = tDialog.showAndWait();
+					if (resultOptional.isPresent()) {
+						selectedItem.getChildren().add(new TreeItem<Farm>(new item(resultOptional.get(), 0, 0, 0, 0, 0, 0)));
+					}
 				}
 			}
 		};
@@ -270,24 +281,32 @@ public class Singleton {
 		EventHandler<ActionEvent> onAddItemContainer = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				
-				TextInputDialog tDialog = new TextInputDialog();
-				tDialog.setTitle("Add Item Container");
-				tDialog.setHeaderText("Enter the Name of the New Item Container:");
-				tDialog.setContentText("Name:");
-				Optional<String> resultOptional = tDialog.showAndWait();
-				if (resultOptional.isPresent()) {
-					TreeItem<Farm> treeItemContainer = new TreeItem<Farm>(new itemContainer(resultOptional.get(), 0, 0, 0, 0, 0, 0));
-					treeItemContainer.setExpanded(true);
-					treeView.getSelectionModel().getSelectedItem().getChildren().add(treeItemContainer);
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				
+				if (selectedItem != null) {
+					TextInputDialog tDialog = new TextInputDialog();
+					tDialog.setTitle("Add Item Container");
+					tDialog.setHeaderText("Enter the Name of the New Item Container:");
+					tDialog.setContentText("Name:");
+					Optional<String> resultOptional = tDialog.showAndWait();
+					if (resultOptional.isPresent()) {
+						TreeItem<Farm> treeItemContainer = new TreeItem<Farm>(new itemContainer(resultOptional.get(), 0, 0, 0, 0, 0, 0));
+						treeItemContainer.setExpanded(true);
+						selectedItem.getChildren().add(treeItemContainer);
+					}
 				}
-			}
+				}
 		};
 		
 		// Occurs when the user clicks the on delete button.
 		EventHandler<ActionEvent> onDelete = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				TreeItem<Farm> treeItem = treeView.getSelectionModel().getSelectedItem();
-				treeView.getSelectionModel().getSelectedItem().getParent().getChildren().remove(treeItem);
+				
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				
+				if (selectedItem != null) {
+					selectedItem.getParent().getChildren().remove(selectedItem);
+				}
 			}
 		};
 		
