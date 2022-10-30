@@ -380,15 +380,13 @@ public class Singleton {
 			}
 		};
 		
-		// Occurs when the user clicks the on the scan farm button.
+		// Occurs when the user clicks the on the Go To Home Button
 		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
-				translate.setByX(150);
-				commandCenterBox
-				translate.setDuration(Duration.millis(1000));
+				translate.setToX(commandCenterBox.getLayoutX() - droneVisual.getLayoutX() + 50);
+				translate.setToY(commandCenterBox.getLayoutY() - droneVisual.getLayoutY());
 				translate.play();
-				//rotate.play();
 			}
 		};
 		
