@@ -390,6 +390,16 @@ public class Singleton {
 			}
 		};
 		
+		EventHandler<ActionEvent> onGoToItem = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				translate.setNode(droneVisual);
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				translate.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 50);
+				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY());
+				translate.play();
+			}
+		};
+		
 		
 		// ########################################## Event Handlers ##########################################
 		
@@ -403,6 +413,7 @@ public class Singleton {
 		deleteButton.setOnAction(onDelete);
 		scanFarmButton.setOnAction(onScan);
 		goToHomeButton.setOnAction(onGoToHome);
+		goToItemButton.setOnAction(onGoToItem);
 		
 
 	    root.setExpanded(true);
