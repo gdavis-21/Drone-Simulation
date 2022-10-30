@@ -2,6 +2,8 @@ package com.barishal.view;
 
 import java.util.Optional;
 
+import org.w3c.dom.css.Rect;
+
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 public class Singleton {
@@ -47,13 +50,17 @@ public class Singleton {
 	@FXML
 	private Label buttonsLabel;
 	@FXML
-	private Button scanFarm;
+	private Button scanFarmButton;
 	@FXML
-	private Button goToItem;
+	private Button goToItemButton;
+	@FXML
+	private Button goToHomeButton;
     @FXML
     private SubScene visual;
 	@FXML
 	private ImageView droneVisual;
+	@FXML
+	private Rect commandCenter;
 	
 	private Singleton() {
 		
@@ -321,16 +328,31 @@ public class Singleton {
 			}
 		};
 		
+		// ########################################## Animation Handlers ##########################################
 		TranslateTransition translate = new TranslateTransition();
 		RotateTransition rotate = new RotateTransition();
+		
 		// Occurs when the user clicks the on the scan farm button.
 		EventHandler<ActionEvent> onScan = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
-				rotate.setNode(droneVisual);
-				rotate.setByAngle(90);
-				translate.setToX(20);
-				translate.setCycleCount(2);
+				//rotate.setNode(droneVisual);
+				//rotate.setByAngle(90);
+				translate.setByX(150);
+				translate.setDuration(Duration.millis(1000));
+				translate.play();
+				//rotate.play();
+			}
+		};
+		
+		// Occurs when the user clicks the on the scan farm button.
+		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				translate.setNode(droneVisual);
+				translate.setByX(150);
+				translate.setDuration(Duration.millis(1000));
+				translate.play();
+				//rotate.play();
 			}
 		};
 		
@@ -345,7 +367,8 @@ public class Singleton {
 		addItemButton.setOnAction(onAddItem);
 		addItemContainerButton.setOnAction(onAddItemContainer);
 		deleteButton.setOnAction(onDelete);
-		scanFarm.setOnAction(onScan);
+		scanFarmButton.setOnAction(onScan);
+		goToHomeButton.setOnAction(onGoToHome);
 		
 
 	    root.setExpanded(true);

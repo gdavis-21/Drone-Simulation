@@ -4,6 +4,7 @@ module Barishal {
 	requires java.desktop;
 	requires javafx.base;
 	requires javafx.graphics;
+	requires jdk.xml.dom;
 	
 	opens com.barishal to javafx.graphics, javafx.fxml;
 	opens com.barishal.view to javafx.fxml;
