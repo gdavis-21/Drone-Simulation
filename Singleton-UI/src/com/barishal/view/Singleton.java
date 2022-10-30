@@ -2,12 +2,16 @@ package com.barishal.view;
 
 import java.util.Optional;
 
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -17,6 +21,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
 public class Singleton {
@@ -41,7 +46,14 @@ public class Singleton {
 	private Button addItemContainerButton;
 	@FXML
 	private Label buttonsLabel;
-	
+	@FXML
+	private Button scanFarm;
+	@FXML
+	private Button goToItem;
+    @FXML
+    private SubScene visual;
+	@FXML
+	private ImageView droneVisual;
 	
 	private Singleton() {
 		
@@ -64,8 +76,8 @@ public class Singleton {
 		TreeItem<Farm> root = new TreeItem<Farm>(new itemContainer("Root", 0, 0, 0, 0, 0, 0));
 		
 		TreeItem<Farm> commandCenter = new TreeItem<Farm>(new itemContainer("Command Center", 0, 0, 0, 0, 0, 0));
+		TreeItem<Farm> drone = new TreeItem<Farm>(new item("drone", 0, 0, 0, 0, 0, 0));
 		commandCenter.setExpanded(true);
-		TreeItem<Farm> drone = new TreeItem<Farm>(new item("Drone", 0, 0, 0, 0, 0, 0));
 
 		
 		TreeItem<Farm> barn = new TreeItem<Farm>(new itemContainer("Barn", 0, 0, 0, 0, 0, 0));
@@ -91,8 +103,6 @@ public class Singleton {
 		storageBuilding.getChildren().add(tiller);
 		
 		// ########################################## Sample Data ##########################################
-		
-		
 		
 		
 		// ########################################## Event Handlers ##########################################
@@ -270,6 +280,7 @@ public class Singleton {
 					tDialog.setHeaderText("Enter the Name of the New Item:");
 					tDialog.setContentText("Name:");
 					Optional<String> resultOptional = tDialog.showAndWait();
+					
 					if (resultOptional.isPresent()) {
 						selectedItem.getChildren().add(new TreeItem<Farm>(new item(resultOptional.get(), 0, 0, 0, 0, 0, 0)));
 					}
@@ -310,6 +321,20 @@ public class Singleton {
 			}
 		};
 		
+		TranslateTransition translate = new TranslateTransition();
+		RotateTransition rotate = new RotateTransition();
+		// Occurs when the user clicks the on the scan farm button.
+		EventHandler<ActionEvent> onScan = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				translate.setNode(droneVisual);
+				rotate.setNode(droneVisual);
+				rotate.setByAngle(90);
+				translate.setToX(20);
+				translate.setCycleCount(2);
+			}
+		};
+		
+		
 		// ########################################## Event Handlers ##########################################
 		
 		treeView.setOnMouseClicked(onTreeViewClick);
@@ -320,11 +345,10 @@ public class Singleton {
 		addItemButton.setOnAction(onAddItem);
 		addItemContainerButton.setOnAction(onAddItemContainer);
 		deleteButton.setOnAction(onDelete);
-		
+		scanFarm.setOnAction(onScan);
 		
 
 	    root.setExpanded(true);
-
 	    treeView.setRoot(root);
 		
 	}
