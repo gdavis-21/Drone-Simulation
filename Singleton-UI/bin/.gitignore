@@ -1,1 +1,4 @@
-/com/
+/.classpath
+/.project
+/.settings/
+/build.fxbuild
