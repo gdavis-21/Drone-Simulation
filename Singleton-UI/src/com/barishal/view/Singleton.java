@@ -24,13 +24,46 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
 public class Singleton {
 	
 	private static Singleton singleton;
-	
+    @FXML
+    private Rectangle barnBox;
+    @FXML
+    private Text barnText;
+    @FXML
+    private Rectangle cowBox;
+    @FXML
+    private Text cowText;
+    @FXML
+    private Rectangle cropBox;
+    @FXML
+    private Text cropText;
+    @FXML
+    private Rectangle milkBox;
+    @FXML
+    private Text milkText;
+    @FXML
+    private Rectangle soyBox;
+    @FXML
+    private Text soyText;
+    @FXML
+    private Rectangle storageBox;
+    @FXML
+    private Text storageText;
+    @FXML
+    private Rectangle tillerBox;
+    @FXML
+    private Text tillerText;
+    @FXML
+    private Rectangle tractorBox;
+    @FXML
+    private Text tractorText;
+    
 	@FXML
 	private TreeView<Farm> treeView;
 	@FXML
@@ -59,8 +92,6 @@ public class Singleton {
     private SubScene visual;
 	@FXML
 	private ImageView droneVisual;
-	@FXML
-	private Rect commandCenter;
 	
 	private Singleton() {
 		
