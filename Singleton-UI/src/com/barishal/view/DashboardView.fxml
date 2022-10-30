@@ -69,7 +69,7 @@
                     </root>
                   </SubScene>
                   <Rectangle fx:id="commandCenterBox" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="316.0" layoutY="222.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-                  <Text layoutX="344.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Command Center">
+                  <Text fx:id="commandCenterText" layoutX="344.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Command Center">
                      <font>
                         <Font size="18.0" />
                      </font>

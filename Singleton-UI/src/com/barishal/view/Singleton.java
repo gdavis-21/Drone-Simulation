@@ -63,6 +63,10 @@ public class Singleton {
     private Rectangle tractorBox;
     @FXML
     private Text tractorText;
+    @FXML 
+    private Text commandCenterText;
+    @FXML
+    private Rectangle commandCenterBox;
     
 	@FXML
 	private TreeView<Farm> treeView;
@@ -381,6 +385,7 @@ public class Singleton {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
 				translate.setByX(150);
+				commandCenterBox
 				translate.setDuration(Duration.millis(1000));
 				translate.play();
 				//rotate.play();
