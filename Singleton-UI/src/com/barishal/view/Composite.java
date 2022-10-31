@@ -2,6 +2,14 @@ package com.barishal.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 interface Farm{
     public void deleteItem(item Item);
     public void changeName(String newName);
@@ -18,6 +26,11 @@ interface Farm{
     public Double getLength();
     public Double getWidth();
     public Double getHeight();
+    public Rectangle getRectangle();
+    public StackPane getStackPane();
+    public Label getLabel();
+    public void setStackPane(StackPane stackPane);
+    public void setRectangle(Rectangle newRectangle);
     public void addItemContainer(itemContainer ItemContainer);
     public void deleteItemContainer(itemContainer ItemContainer);
     public void addItem(item Item);
@@ -32,6 +45,9 @@ class itemContainer implements Farm{
     private double length;
     private double width;
     private double height;
+    private Rectangle rectangle;
+    private StackPane stackPane;
+    private Label label;
 
     private List<itemContainer> collectionOfItemContainers = new ArrayList<itemContainer>();
     private List<item> collectionOfItems = new ArrayList<item>();
@@ -44,6 +60,21 @@ class itemContainer implements Farm{
         this.length = length;
         this.width = width;
         this.height = height;
+        
+        stackPane = new StackPane();
+        label = new Label();
+        label.setText(name);
+        rectangle = (new Rectangle(locationX, locationY, length, width));
+        
+        rectangle.setFill(Color.WHITE);
+        rectangle.setStroke(Color.BLACK);
+        
+        stackPane.getChildren().add(rectangle);
+        stackPane.getChildren().add(label);
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        
+        stackPane.setAlignment(Pos.TOP_CENTER);
+
     }
 
     @Override
@@ -54,6 +85,7 @@ class itemContainer implements Farm{
     @Override
     public void changeName(String newName) {
         this.name = newName;
+        label.setText(newName);
     }
 
     @Override
@@ -64,21 +96,25 @@ class itemContainer implements Farm{
     @Override
     public void changeLocationX(double newLocationX) {
         this.locationX = newLocationX;
+        rectangle.setX(newLocationX);
     }
 
     @Override
     public void changeLocationY(double newLocationY) {
         this.locationY = newLocationY;
+        rectangle.setY(newLocationY);
     }
 
     @Override
     public void changeLength(double newLength) {
         this.length = newLength;
+        rectangle.setHeight(length);;
     }
 
     @Override
     public void changeWidth(double newWidth) {
         this.width = newWidth;
+        rectangle.setWidth(newWidth);
     }
 
     @Override
@@ -157,6 +193,35 @@ class itemContainer implements Farm{
     public String toString() {
     	return this.name;
     }
+
+    @Override
+	public Rectangle getRectangle() {
+		return rectangle;
+	}
+    
+    @Override
+	public void setRectangle(Rectangle rectangle) {
+		this.rectangle = rectangle;
+	}
+
+    @Override
+	public StackPane getStackPane() {
+		return stackPane;
+	}
+
+	@Override
+	public void setStackPane(StackPane stackPane) {
+		this.stackPane = stackPane;
+	}
+
+	@Override
+	public Label getLabel() {
+		return label;
+	}
+
+	public void setLabel(Label label) {
+		this.label = label;
+	}
 }
 
 class item implements Farm{
@@ -168,6 +233,9 @@ class item implements Farm{
     private double length;
     private double width;
     private double height;
+    private Rectangle rectangle;
+    private StackPane stackPane;
+    private Label label;
 
     private List<item> collectionOfItems = new ArrayList<item>();
 
@@ -179,6 +247,19 @@ class item implements Farm{
         this.length = length;
         this.width = width;
         this.height = height;
+        stackPane = new StackPane();
+        label = new Label();
+        label.setText(name);
+        rectangle = (new Rectangle(locationX, locationY, length, width));
+        
+        rectangle.setFill(Color.WHITE);
+        rectangle.setStroke(Color.BLACK);
+        
+        stackPane.getChildren().add(rectangle);
+        stackPane.getChildren().add(label);
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        
+        stackPane.setAlignment(Pos.TOP_CENTER);
     }
 
     @Override
@@ -189,6 +270,7 @@ class item implements Farm{
     @Override
     public void changeName(String newName) {
         this.name = newName;
+        label.setText(newName);
     }
 
     @Override
@@ -199,24 +281,28 @@ class item implements Farm{
     @Override
     public void changeLocationX(double newLocationX) {
         this.locationX = newLocationX;
+        rectangle.setX(newLocationX);
         
     }
 
     @Override
     public void changeLocationY(double newLocationY) {
         this.locationY = newLocationY;
+        rectangle.setY(newLocationY);
         
     }
 
     @Override
     public void changeLength(double newLength) {
         this.length = newLength;
+        rectangle.setHeight(newLength);
         
     }
 
     @Override
     public void changeWidth(double newWidth) {
         this.width = newWidth;
+        rectangle.setWidth(newWidth);
         
     }
 
@@ -283,50 +369,79 @@ class item implements Farm{
     public Double getHeight() {
     	return this.height;
     }
+
+	@Override
+	public Rectangle getRectangle() {
+		return rectangle;
+	}
+
+	@Override
+	public void setRectangle(Rectangle rectangle) {
+		this.rectangle = rectangle;
+	}
+
+	@Override
+	public StackPane getStackPane() {
+		return stackPane;
+	}
+
+	@Override
+	public void setStackPane(StackPane stackPane) {
+		this.stackPane = stackPane;
+	}
+
+	@Override
+	public Label getLabel() {
+		return label;
+	}
+
+	public void setLabel(Label label) {
+		this.label = label;
+	}
 }
 
 
 public class Composite{
     public static void main(String[] args) {
 
-        //------------------------------------------------------------First Scenario---------------------------------------------------------
-        itemContainer Barn = new itemContainer("Barn", 175621.42, 567, 42, 42, 20, 15);
-        itemContainer liveStockArea = new itemContainer("Live-Stock-Area", 5765.21, 567, 42, 12, 16, 8);
-        item milkStorage = new item("Milk Storage", 25.75, 567, 42, 4, 5, 3);
-        item cow = new item("Cow", 2000.00, 567, 42, 62, 28, 68);
-
-        Barn.addItemContainer(liveStockArea);
-        Barn.addItem(milkStorage);
-        liveStockArea.addItem(cow);
-
-        Barn.printItemContainerCollection();
-        Barn.printItems();
-
-        liveStockArea.printItems();
-
-
-        //------------------------------------------------------------Second Scenario---------------------------------------------------------
-        itemContainer storageBuilding = new itemContainer("Storage Building", 7500.35, 565, 40, 65, 20, 25);
-        item tractor = new item("Tractor", 15000, 565, 40, 12, 6, 4);
-        item tiller = new item("Tiller", 10000, 565, 40, 10, 4, 4);
-
-        storageBuilding.addItem(tractor);
-        storageBuilding.addItem(tiller);
-        
-        storageBuilding.printItems();
-
-
-        //------------------------------------------------------------Third Scenario---------------------------------------------------------
-        itemContainer commandCenter = new itemContainer("Command Center", 8500, 560, 35, 40, 30, 20);
-        item drone = new item("Drone", 100, 560, 35, 4, 4, 1);
-        
-        commandCenter.addItem(drone);
-        commandCenter.printItems();
-
-        //------------------------------------------------------------Fourth Scenario---------------------------------------------------------
-        item soy = new item("Soy", 10.20, 500, 15, 0.5, 0.5, 2);
-
-
-        System.out.println("\n");
+//        //------------------------------------------------------------First Scenario---------------------------------------------------------
+//        itemContainer Barn = new itemContainer("Barn", 175621.42, 567, 42, 42, 20, 15);
+//        itemContainer liveStockArea = new itemContainer("Live-Stock-Area", 5765.21, 567, 42, 12, 16, 8);
+//        item milkStorage = new item("Milk Storage", 25.75, 567, 42, 4, 5, 3);
+//        item cow = new item("Cow", 2000.00, 567, 42, 62, 28, 68);
+//
+//        Barn.addItemContainer(liveStockArea);
+//        Barn.addItem(milkStorage);
+//        liveStockArea.addItem(cow);
+//
+//        Barn.printItemContainerCollection();
+//        Barn.printItems();
+//
+//        liveStockArea.printItems();
+//
+//
+//        //------------------------------------------------------------Second Scenario---------------------------------------------------------
+//        itemContainer storageBuilding = new itemContainer("Storage Building", 7500.35, 565, 40, 65, 20, 25);
+//        item tractor = new item("Tractor", 15000, 565, 40, 12, 6, 4);
+//        item tiller = new item("Tiller", 10000, 565, 40, 10, 4, 4);
+//
+//        storageBuilding.addItem(tractor);
+//        storageBuilding.addItem(tiller);
+//        
+//        storageBuilding.printItems();
+//
+//
+//        //------------------------------------------------------------Third Scenario---------------------------------------------------------
+//        itemContainer commandCenter = new itemContainer("Command Center", 8500, 560, 35, 40, 30, 20);
+//        item drone = new item("Drone", 100, 560, 35, 4, 4, 1);
+//        
+//        commandCenter.addItem(drone);
+//        commandCenter.printItems();
+//
+//        //------------------------------------------------------------Fourth Scenario---------------------------------------------------------
+//        item soy = new item("Soy", 10.20, 500, 15, 0.5, 0.5, 2);
+//
+//
+//        System.out.println("\n");
     } 
 }

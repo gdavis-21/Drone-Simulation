@@ -1,8 +1,5 @@
 package com.barishal.view;
-
 import java.util.Optional;
-
-import org.w3c.dom.css.Rect;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -10,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -22,51 +20,21 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
 public class Singleton {
 	
 	private static Singleton singleton;
-    @FXML
-    private Rectangle barnBox;
-    @FXML
-    private Text barnText;
-    @FXML
-    private Rectangle cowBox;
-    @FXML
-    private Text cowText;
-    @FXML
-    private Rectangle cropBox;
-    @FXML
-    private Text cropText;
-    @FXML
-    private Rectangle milkBox;
-    @FXML
-    private Text milkText;
-    @FXML
-    private Rectangle soyBox;
-    @FXML
-    private Text soyText;
-    @FXML
-    private Rectangle storageBox;
-    @FXML
-    private Text storageText;
-    @FXML
-    private Rectangle tillerBox;
-    @FXML
-    private Text tillerText;
-    @FXML
-    private Rectangle tractorBox;
-    @FXML
-    private Text tractorText;
-    @FXML 
-    private Text commandCenterText;
-    @FXML
-    private Rectangle commandCenterBox;
+	
+	@FXML
+	AnchorPane anchorPane;
     
 	@FXML
 	private TreeView<Farm> treeView;
@@ -117,35 +85,29 @@ public class Singleton {
 		
 		TreeItem<Farm> root = new TreeItem<Farm>(new itemContainer("Root", 0, 0, 0, 0, 0, 0));
 		
-		TreeItem<Farm> commandCenter = new TreeItem<Farm>(new itemContainer("Command Center", 0, 0, 0, 0, 0, 0));
-		TreeItem<Farm> drone = new TreeItem<Farm>(new item("drone", 0, 0, 0, 0, 0, 0));
+		TreeItem<Farm> commandCenter = new TreeItem<Farm>(new itemContainer("Command Center", 0, 300, 50, 100, 100, 0));
+		
+		TreeItem<Farm> drone = new TreeItem<Farm>(new item("Drone", 0, 330, 75, 40, 40, 0));
+		
 		commandCenter.setExpanded(true);
 
 		
-		TreeItem<Farm> barn = new TreeItem<Farm>(new itemContainer("Barn", 0, 0, 0, 0, 0, 0));
-		barn.setExpanded(true);
-		TreeItem<Farm> milkStorage = new TreeItem<Farm>(new item("Milk Storage", 0, 0, 0, 0, 0, 0));
-		TreeItem<Farm> cow = new TreeItem<Farm>(new item("Cow", 0, 0, 0, 0, 0, 0));
-		
-		TreeItem<Farm> storageBuilding = new TreeItem<Farm>(new itemContainer("Storage Building", 0, 0, 0, 0, 0, 0));
-		storageBuilding.setExpanded(true);
-		TreeItem<Farm> tractor = new TreeItem<Farm>(new item("Tractor", 0, 0, 0, 0, 0, 0));
-		TreeItem<Farm> tiller = new TreeItem<Farm>(new item("Tiller", 0, 0, 0, 0, 0, 0));
-		
 		root.getChildren().add(commandCenter);
-		root.getChildren().add(barn);
-		root.getChildren().add(storageBuilding);
 		
 		commandCenter.getChildren().add(drone);
 		
-		barn.getChildren().add(milkStorage);
-		barn.getChildren().add(cow);
+		anchorPane.getChildren().add(commandCenter.getValue().getStackPane());
+		anchorPane.getChildren().add(drone.getValue().getStackPane());
 		
-		storageBuilding.getChildren().add(tractor);
-		storageBuilding.getChildren().add(tiller);
+		commandCenter.getValue().getStackPane().setTranslateX(commandCenter.getValue().getLocationX());
+		commandCenter.getValue().getStackPane().setTranslateY(commandCenter.getValue().getLocationY());
+		
+		drone.getValue().getStackPane().setTranslateX(drone.getValue().getLocationX());
+		drone.getValue().getStackPane().setTranslateY(drone.getValue().getLocationY());
+		
 		
 		// ########################################## Sample Data ##########################################
-		
+
 		
 		// ########################################## Event Handlers ##########################################
 		
@@ -188,6 +150,20 @@ public class Singleton {
 					if (resultOptional.isPresent()) {
 						treeView.getSelectionModel().getSelectedItem().getValue().changeName(resultOptional.get());
 						treeView.refresh();
+						
+						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getRectangle());
+						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getLabel());
+						
+						anchorPane.getChildren().remove(selectedItem.getValue().getStackPane());
+						
+						StackPane stackPane = selectedItem.getValue().getStackPane();
+
+						stackPane.getChildren().add(selectedItem.getValue().getRectangle());
+						stackPane.getChildren().add(selectedItem.getValue().getLabel());
+						
+									
+						anchorPane.getChildren().add(stackPane);
+				
 					}
 				}
 			}
@@ -236,6 +212,26 @@ public class Singleton {
 					if (resultOptional.isPresent()) {
 						selectedItem.getValue().changeLocationX(Double.parseDouble(resultOptional.get().getKey()));
 						selectedItem.getValue().changeLocationY(Double.parseDouble(resultOptional.get().getValue()));
+						
+						// Force Update the Anchor View By Removing and Adding Back Elements
+//						
+//						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getRectangle());
+//						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getLabel());
+//						
+//						anchorPane.getChildren().remove(selectedItem.getValue().getStackPane());
+//						
+						StackPane stackPane = selectedItem.getValue().getStackPane();
+//						
+//						selectedItem.getValue().setRectangle(new Rectangle(100, 100, 100, 100));
+//
+//						stackPane.getChildren().add(selectedItem.getValue().getRectangle());
+//						stackPane.getChildren().add(selectedItem.getValue().getLabel());
+//						
+//									
+//						anchorPane.getChildren().add(stackPane);
+						
+						stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
+						stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));
 					}
 				}		
 			}
@@ -302,8 +298,24 @@ public class Singleton {
 					
 					Optional<Pair<String, String>> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
+						
 						treeView.getSelectionModel().getSelectedItem().getValue().changeLength((Double.parseDouble(resultOptional.get().getKey())));
 						treeView.getSelectionModel().getSelectedItem().getValue().changeWidth(Double.parseDouble(resultOptional.get().getValue()));
+						
+						// Force Update the Anchor View By Removing and Adding Back Elements
+						
+						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getRectangle());
+						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getLabel());
+						
+						anchorPane.getChildren().remove(selectedItem.getValue().getStackPane());
+						
+						StackPane stackPane = selectedItem.getValue().getStackPane();
+
+						stackPane.getChildren().add(selectedItem.getValue().getRectangle());
+						stackPane.getChildren().add(selectedItem.getValue().getLabel());
+						
+									
+						anchorPane.getChildren().add(stackPane);
 					}
 				}
 				
@@ -324,7 +336,26 @@ public class Singleton {
 					Optional<String> resultOptional = tDialog.showAndWait();
 					
 					if (resultOptional.isPresent()) {
-						selectedItem.getChildren().add(new TreeItem<Farm>(new item(resultOptional.get(), 0, 0, 0, 0, 0, 0)));
+						
+						item newItem = new item(resultOptional.get(), 0, 0, 0, 100, 100, 0);
+						
+						newItem.getRectangle().setFill(Color.WHITE);
+						newItem.getRectangle().setStroke(Color.BLACK);
+						newItem.getRectangle().setStrokeWidth(1);
+						
+						newItem.setLabel(new Label());
+						newItem.getLabel().setText(resultOptional.get());
+						newItem.getLabel().setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+						
+						newItem.setStackPane(new StackPane());
+						newItem.getStackPane().getChildren().add(newItem.getRectangle());
+						newItem.getStackPane().getChildren().add(newItem.getLabel());
+						
+						newItem.getStackPane().setAlignment(Pos.TOP_CENTER);
+						
+						selectedItem.getChildren().add(new TreeItem<Farm>(newItem));
+						
+						anchorPane.getChildren().add(newItem.getStackPane());
 					}
 				}
 			}
@@ -343,9 +374,29 @@ public class Singleton {
 					tDialog.setContentText("Name:");
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
-						TreeItem<Farm> treeItemContainer = new TreeItem<Farm>(new itemContainer(resultOptional.get(), 0, 0, 0, 0, 0, 0));
+						
+						item newItemContainer = new item(resultOptional.get(), 0, 0, 0, 100, 100, 0);
+						
+						newItemContainer.setLabel(new Label());
+						newItemContainer.getLabel().setText(resultOptional.get());
+						newItemContainer.getLabel().setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+						
+						newItemContainer.getRectangle().setFill(Color.WHITE);
+						newItemContainer.getRectangle().setStroke(Color.BLACK);
+						newItemContainer.getRectangle().setStrokeWidth(1);
+						
+						newItemContainer.setStackPane(new StackPane());
+						newItemContainer.getStackPane().getChildren().add(newItemContainer.getRectangle());
+						newItemContainer.getStackPane().getChildren().add(newItemContainer.getLabel());
+						
+						newItemContainer.getStackPane().setAlignment(Pos.TOP_CENTER);
+						
+						TreeItem<Farm> treeItemContainer = new TreeItem<Farm>(newItemContainer);
 						treeItemContainer.setExpanded(true);
+						
 						selectedItem.getChildren().add(treeItemContainer);
+						
+						anchorPane.getChildren().add(newItemContainer.getStackPane());
 					}
 				}
 				}
@@ -359,6 +410,11 @@ public class Singleton {
 				
 				if (selectedItem != null) {
 					selectedItem.getParent().getChildren().remove(selectedItem);
+					
+					selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getRectangle());
+					selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getLabel());
+					
+					anchorPane.getChildren().remove(selectedItem.getValue().getStackPane());
 				}
 			}
 		};
@@ -383,10 +439,10 @@ public class Singleton {
 		// Occurs when the user clicks the on the Go To Home Button
 		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				translate.setNode(droneVisual);
-				translate.setToX(commandCenterBox.getLayoutX() - droneVisual.getLayoutX() + 50);
-				translate.setToY(commandCenterBox.getLayoutY() - droneVisual.getLayoutY());
-				translate.play();
+//				translate.setNode(droneVisual);
+//				translate.setToX(commandCenterBox.getLayoutX() - droneVisual.getLayoutX() + 50);
+//				translate.setToY(commandCenterBox.getLayoutY() - droneVisual.getLayoutY());
+//				translate.play();
 			}
 		};
 		
