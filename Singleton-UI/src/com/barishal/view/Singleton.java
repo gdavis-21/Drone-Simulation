@@ -97,13 +97,52 @@ public class Singleton {
 		commandCenter.getChildren().add(drone);
 		
 		anchorPane.getChildren().add(commandCenter.getValue().getStackPane());
-		anchorPane.getChildren().add(drone.getValue().getStackPane());
+		//anchorPane.getChildren().add(drone.getValue().getStackPane());
 		
 		commandCenter.getValue().getStackPane().setTranslateX(commandCenter.getValue().getLocationX());
 		commandCenter.getValue().getStackPane().setTranslateY(commandCenter.getValue().getLocationY());
 		
 		drone.getValue().getStackPane().setTranslateX(drone.getValue().getLocationX());
 		drone.getValue().getStackPane().setTranslateY(drone.getValue().getLocationY());
+		
+		droneVisual.toFront();
+		
+		treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+			TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+			if (selectedItem.getValue().getName().equalsIgnoreCase("Root")) {
+				renameButton.setDisable(true);
+				changeLocationButton.setDisable(true);
+				changePriceButton.setDisable(true);
+				changeDimensionButton.setDisable(true);
+				deleteButton.setDisable(true);
+				goToItemButton.setDisable(false);
+			}
+			else if (selectedItem.getValue().getName().equalsIgnoreCase("Command Center")) {
+				renameButton.setDisable(true);
+				changeLocationButton.setDisable(false);
+				changePriceButton.setDisable(false);
+				changeDimensionButton.setDisable(false);
+				deleteButton.setDisable(true);
+				goToItemButton.setDisable(false);
+			}
+			else if (selectedItem.getValue().getName().equalsIgnoreCase("Drone")) {
+				renameButton.setDisable(true);
+				changeLocationButton.setDisable(false);
+				changePriceButton.setDisable(false);
+				changeDimensionButton.setDisable(true);
+				deleteButton.setDisable(true);
+				goToItemButton.setDisable(true);
+			}
+			else {
+				renameButton.setDisable(false);
+				changeLocationButton.setDisable(false);
+				changePriceButton.setDisable(false);
+				changeDimensionButton.setDisable(false);
+				deleteButton.setDisable(false);
+				goToItemButton.setDisable(false);
+			}
+		});
+		
 		
 		
 		// ########################################## Sample Data ##########################################
@@ -439,10 +478,10 @@ public class Singleton {
 		// Occurs when the user clicks the on the Go To Home Button
 		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-//				translate.setNode(droneVisual);
-//				translate.setToX(commandCenterBox.getLayoutX() - droneVisual.getLayoutX() + 50);
-//				translate.setToY(commandCenterBox.getLayoutY() - droneVisual.getLayoutY());
-//				translate.play();
+				translate.setNode(droneVisual);
+				translate.setToX(commandCenter.getValue().getLocationX() - droneVisual.getLayoutX());
+				translate.setToY(commandCenter.getValue().getLocationY() - droneVisual.getLayoutY());
+				translate.play();
 			}
 		};
 		
@@ -451,7 +490,9 @@ public class Singleton {
 				translate.setNode(droneVisual);
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
 				translate.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 50);
-				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY());
+				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY() + 50);
+				//translate.setToX((selectedItem.getValue().getLocationX() + droneVisual.getLayoutX()) / 2);
+				//translate.setToY((selectedItem.getValue().getLocationY() + droneVisual.getLayoutY()) / 2);
 				translate.play();
 			}
 		};
