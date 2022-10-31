@@ -76,7 +76,7 @@
                   </Text>
                   <ImageView fx:id="droneVisual" fitHeight="93.0" fitWidth="96.0" layoutX="378.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="drone.png" />
+                        <Image url="@../../../../../../../Downloads/src_drone.png" />
                      </image>
                   </ImageView>
                   <Rectangle fx:id="barnBox" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="267.0" layoutX="55.0" layoutY="168.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
