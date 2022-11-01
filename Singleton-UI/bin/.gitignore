@@ -1,10 +1,2 @@
-/.classpath
-/.metadata/
-/.project
-/.settings/
-/README
-/build.fxbuild
-/com/
-/drone.png
-/module-info.class
 /Singleton-UI/
+/com/

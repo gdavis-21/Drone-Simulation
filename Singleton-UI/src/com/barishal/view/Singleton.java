@@ -1,8 +1,11 @@
 package com.barishal.view;
 import java.util.Optional;
 
+
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
@@ -90,7 +94,6 @@ public class Singleton {
 		TreeItem<Farm> drone = new TreeItem<Farm>(new item("Drone", 0, 330, 75, 40, 40, 0));
 		
 		commandCenter.setExpanded(true);
-
 		
 		root.getChildren().add(commandCenter);
 		
@@ -394,7 +397,10 @@ public class Singleton {
 						
 						selectedItem.getChildren().add(new TreeItem<Farm>(newItem));
 						
+						
+						
 						anchorPane.getChildren().add(newItem.getStackPane());
+						droneVisual.toFront();
 					}
 				}
 			}
@@ -414,7 +420,7 @@ public class Singleton {
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
 						
-						item newItemContainer = new item(resultOptional.get(), 0, 0, 0, 100, 100, 0);
+						itemContainer newItemContainer = new itemContainer(resultOptional.get(), 0, 0, 0, 0, 0, 0);
 						
 						newItemContainer.setLabel(new Label());
 						newItemContainer.getLabel().setText(resultOptional.get());
@@ -436,6 +442,7 @@ public class Singleton {
 						selectedItem.getChildren().add(treeItemContainer);
 						
 						anchorPane.getChildren().add(newItemContainer.getStackPane());
+						droneVisual.toFront();
 					}
 				}
 				}
@@ -460,18 +467,48 @@ public class Singleton {
 		
 		// ########################################## Animation Handlers ##########################################
 		TranslateTransition translate = new TranslateTransition();
-		RotateTransition rotate = new RotateTransition();
+		Path path = new Path();
 		
 		// Occurs when the user clicks the on the scan farm button.
 		EventHandler<ActionEvent> onScan = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
-				//rotate.setNode(droneVisual);
-				//rotate.setByAngle(90);
-				translate.setByX(150);
-				translate.setDuration(Duration.millis(1000));
+		        translate.setToX(- droneVisual.getLayoutX());
+				translate.setToY(- droneVisual.getLayoutY());
 				translate.play();
-				//rotate.play();
+				translate.setOnFinished(e -> {
+					traverseFarm();
+				});
+			}
+			
+			public void traverseFarm() {
+				PathTransition scantransition = new PathTransition();
+				
+				path.getElements().add(new MoveTo(-200, -240)); // top left
+				path.getElements().add(new LineTo(-200, 350)); // bottom left
+				path.getElements().add(new LineTo(-100, 350)); // bottom at x = 0
+				path.getElements().add(new LineTo(-100, -240)); // top at x = 0
+				path.getElements().add(new LineTo(0, -240)); //move x over 200
+				path.getElements().add(new LineTo(0, 350)); // bottom at 200
+				path.getElements().add(new LineTo(100, 350)); 
+				path.getElements().add(new LineTo(100, -240));
+				path.getElements().add(new LineTo(200, -240)); //move x over 200
+				path.getElements().add(new LineTo(200, 350)); // bottom at 200
+				path.getElements().add(new LineTo(300, 350)); 
+				path.getElements().add(new LineTo(300, -240));
+				path.getElements().add(new LineTo(400, -240)); //move x over 200
+				path.getElements().add(new LineTo(400, 350)); // bottom at 200
+				path.getElements().add(new LineTo(500, 350)); 
+				path.getElements().add(new LineTo(500, -240));
+				
+		        scantransition.setNode(droneVisual);
+		        scantransition.setDuration(Duration.seconds(7.5));
+		        scantransition.setCycleCount(1);
+		        scantransition.setPath(path);
+		        scantransition.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+				
+		        scantransition.play();
+		        path.getElements().clear();
 			}
 		};
 		
@@ -479,8 +516,8 @@ public class Singleton {
 		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
-				translate.setToX(commandCenter.getValue().getLocationX() - droneVisual.getLayoutX());
-				translate.setToY(commandCenter.getValue().getLocationY() - droneVisual.getLayoutY());
+				translate.setToX(commandCenter.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
+				translate.setToY(commandCenter.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
 				translate.play();
 			}
 		};
@@ -489,10 +526,8 @@ public class Singleton {
 			public void handle(ActionEvent event) {
 				translate.setNode(droneVisual);
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
-				translate.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 50);
-				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY() + 50);
-				//translate.setToX((selectedItem.getValue().getLocationX() + droneVisual.getLayoutX()) / 2);
-				//translate.setToY((selectedItem.getValue().getLocationY() + droneVisual.getLayoutY()) / 2);
+				translate.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
+				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
 				translate.play();
 			}
 		};
