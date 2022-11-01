@@ -100,8 +100,7 @@ public class Singleton {
 		commandCenter.getChildren().add(drone);
 		
 		anchorPane.getChildren().add(commandCenter.getValue().getStackPane());
-		//anchorPane.getChildren().add(drone.getValue().getStackPane());
-		
+		anchorPane.getChildren().add(drone.getValue().getStackPane());
 		commandCenter.getValue().getStackPane().setTranslateX(commandCenter.getValue().getLocationX());
 		commandCenter.getValue().getStackPane().setTranslateY(commandCenter.getValue().getLocationY());
 		
@@ -272,6 +271,17 @@ public class Singleton {
 //									
 //						anchorPane.getChildren().add(stackPane);
 						
+//						if (selectedItem == drone )
+//						{
+//							stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
+//							stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));						
+//						}
+//						else
+//						{
+//							stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
+//							stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));
+//						}
+						
 						stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
 						stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));
 					}
@@ -420,7 +430,7 @@ public class Singleton {
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
 						
-						itemContainer newItemContainer = new itemContainer(resultOptional.get(), 0, 0, 0, 0, 0, 0);
+						itemContainer newItemContainer = new itemContainer(resultOptional.get(), 0, 0, 0, 200, 200, 0);
 						
 						newItemContainer.setLabel(new Label());
 						newItemContainer.getLabel().setText(resultOptional.get());
@@ -467,6 +477,7 @@ public class Singleton {
 		
 		// ########################################## Animation Handlers ##########################################
 		TranslateTransition translate = new TranslateTransition();
+		TranslateTransition translate1 = new TranslateTransition();
 		Path path = new Path();
 		
 		// Occurs when the user clicks the on the scan farm button.
@@ -476,9 +487,11 @@ public class Singleton {
 		        translate.setToX(- droneVisual.getLayoutX());
 				translate.setToY(- droneVisual.getLayoutY());
 				translate.play();
+				
 				translate.setOnFinished(e -> {
 					traverseFarm();
 				});
+				
 			}
 			
 			public void traverseFarm() {
@@ -500,35 +513,41 @@ public class Singleton {
 				path.getElements().add(new LineTo(400, 350)); // bottom at 200
 				path.getElements().add(new LineTo(500, 350)); 
 				path.getElements().add(new LineTo(500, -240));
+				path.getElements().add(new LineTo((commandCenter.getValue().getLocationX() - droneVisual.getLayoutX() + 50),
+						(commandCenter.getValue().getLocationY()- droneVisual.getLayoutY()) + 50 ));
 				
 		        scantransition.setNode(droneVisual);
-		        scantransition.setDuration(Duration.seconds(7.5));
+		        scantransition.setDuration(Duration.seconds(9.5));
 		        scantransition.setCycleCount(1);
 		        scantransition.setPath(path);
 		        scantransition.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
 				
 		        scantransition.play();
 		        path.getElements().clear();
+		        scantransition.setPath(null);
 			}
 		};
 		
 		// Occurs when the user clicks the on the Go To Home Button
 		EventHandler<ActionEvent> onGoToHome = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				translate.setNode(droneVisual);
-				translate.setToX(commandCenter.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
-				translate.setToY(commandCenter.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
-				translate.play();
+				path.getElements().clear();
+				translate1.setNode(droneVisual);
+				translate1.setToX(commandCenter.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
+				translate1.setToY(commandCenter.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
+				translate1.play();
+				
+				path.getElements().clear();
 			}
 		};
 		
 		EventHandler<ActionEvent> onGoToItem = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				translate.setNode(droneVisual);
+				translate1.setNode(droneVisual);
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
-				translate.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
-				translate.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
-				translate.play();
+				translate1.setToX(selectedItem.getValue().getLocationX() - droneVisual.getLayoutX() + 10);
+				translate1.setToY(selectedItem.getValue().getLocationY() - droneVisual.getLayoutY() + 10);
+				translate1.play();
 			}
 		};
 		
