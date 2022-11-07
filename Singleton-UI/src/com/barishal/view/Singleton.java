@@ -2,7 +2,6 @@ package com.barishal.view;
 import java.util.Optional;
 
 
-import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;

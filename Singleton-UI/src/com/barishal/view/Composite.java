@@ -34,6 +34,7 @@ interface Farm{
     public void addItemContainer(itemContainer ItemContainer);
     public void deleteItemContainer(itemContainer ItemContainer);
     public void addItem(item Item);
+    public double accept(Visitor v); // [10/06] addition visitor pattern
 }
 
 class itemContainer implements Farm{
@@ -175,7 +176,15 @@ class itemContainer implements Farm{
     public String getContainerName(itemContainer Container) {
         return Container.name;
     }
-
+    
+    public List<itemContainer> getCollectionOfItemContainers(){
+    	return this.collectionOfItemContainers;
+    }
+    
+    public List<item> getCollectionOfItems(){
+    	return this.collectionOfItems;
+    }
+    
     public void printItemContainerCollection() {
         System.out.println("\nPrinting item container collection(s) for " + this.name + ":");
         for (itemContainer i : collectionOfItemContainers) {
@@ -222,6 +231,11 @@ class itemContainer implements Farm{
 	public void setLabel(Label label) {
 		this.label = label;
 	}
+
+	@Override
+	public double accept(Visitor v) {
+		return v.visit(this);
+	}
 }
 
 class item implements Farm{
@@ -251,7 +265,6 @@ class item implements Farm{
         label = new Label();
         label.setText(name);
         rectangle = (new Rectangle(locationX, locationY, length, width));
-        
         rectangle.setFill(Color.WHITE);
         rectangle.setStroke(Color.BLACK);
         
@@ -398,6 +411,12 @@ class item implements Farm{
 	public void setLabel(Label label) {
 		this.label = label;
 	}
+	
+	@Override
+	public double accept(Visitor v) {
+		return v.visit(this);
+	}
+	
 }
 
 
