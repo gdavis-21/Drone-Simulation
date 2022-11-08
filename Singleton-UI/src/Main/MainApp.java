@@ -11,7 +11,7 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("DashboardView.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/View/DashboardView.fxml"));
 		Scene scene = new Scene(fxmlLoader.load());
 		primaryStage.setTitle("Farm Dashboard");
 		primaryStage.setResizable(false);
