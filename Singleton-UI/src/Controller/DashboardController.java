@@ -22,14 +22,13 @@ import javafx.util.Pair;
 import Model.*;
 
 public class DashboardController {
-	
-	private static DashboardController singleton;
+
 	
 	@FXML
 	AnchorPane anchorPane;
     
 	@FXML
-	private TreeView<Model.FarmInterface> treeView;
+	private TreeView<FarmInterface> treeView;
 	@FXML
 	private Button renameButton;
 	@FXML
@@ -60,14 +59,6 @@ public class DashboardController {
 	private DashboardController() {
 		
 	}
-	
-	public static DashboardController getInstance() {
-		
-		if (singleton == null) { 
-			singleton = new DashboardController();
-		}
-		return singleton;
-	}
 
 	// Called after the Constructor, cannot interact with @FXML objects inside Constructor.
 	@FXML
@@ -77,9 +68,9 @@ public class DashboardController {
 		
 		// ############# ############################# Sample Data ##########################################
 		
-		TreeItem<FarmInterface> root = new TreeItem<FarmInterface>(new itemContainer("Root", null, 0, 0, 0, 0, 0, 0));
+		TreeItem<FarmInterface> root = new TreeItem<FarmInterface>(new itemContainer("Root", 0, 0, 0, 0, 0, 0));
 		
-		TreeItem<FarmInterface> commandCenter = new TreeItem<FarmInterface>(new itemContainer("Command Center", null, 0, 300, 50, 100, 100, 0));
+		TreeItem<FarmInterface> commandCenter = new TreeItem<FarmInterface>(new itemContainer("Command Center", 0, 300, 50, 100, 100, 0));
 		
 		TreeItem<FarmInterface> drone = new TreeItem<FarmInterface>(new item("Drone", 0, 330, 75, 40, 40, 0));
 		
@@ -134,11 +125,6 @@ public class DashboardController {
 				goToItemButton.setDisable(false);
 			}
 		});
-		
-		
-		
-		// ########################################## Sample Data ##########################################
-
 		
 		// ########################################## Event Handlers ##########################################
 		
@@ -246,34 +232,8 @@ public class DashboardController {
 					if (resultOptional.isPresent()) {
 						selectedItem.getValue().changeLocationX(Double.parseDouble(resultOptional.get().getKey()));
 						selectedItem.getValue().changeLocationY(Double.parseDouble(resultOptional.get().getValue()));
-						
-						// Force Update the Anchor View By Removing and Adding Back Elements
-//						
-//						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getRectangle());
-//						selectedItem.getValue().getStackPane().getChildren().remove(selectedItem.getValue().getLabel());
-//						
-//						anchorPane.getChildren().remove(selectedItem.getValue().getStackPane());
-//						
+
 						StackPane stackPane = selectedItem.getValue().getStackPane();
-//						
-//						selectedItem.getValue().setRectangle(new Rectangle(100, 100, 100, 100));
-//
-//						stackPane.getChildren().add(selectedItem.getValue().getRectangle());
-//						stackPane.getChildren().add(selectedItem.getValue().getLabel());
-//						
-//									
-//						anchorPane.getChildren().add(stackPane);
-						
-//						if (selectedItem == drone )
-//						{
-//							stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
-//							stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));						
-//						}
-//						else
-//						{
-//							stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
-//							stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));
-//						}
 						
 						stackPane.setTranslateX(Double.parseDouble(resultOptional.get().getKey()));
 						stackPane.setTranslateY(Double.parseDouble(resultOptional.get().getValue()));
@@ -423,7 +383,7 @@ public class DashboardController {
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
 						
-						itemContainer newItemContainer = new itemContainer(resultOptional.get(), null, 0, 0, 0, 200, 200, 0);
+						itemContainer newItemContainer = new itemContainer(resultOptional.get(), 0, 0, 0, 200, 200, 0);
 						
 						newItemContainer.changeLabel(new Label());
 						newItemContainer.getLabel().setText(resultOptional.get());

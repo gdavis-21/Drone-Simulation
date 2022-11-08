@@ -7,6 +7,6 @@ module Barishal {
 	requires jdk.xml.dom;
 	
 	opens Main to javafx.graphics, javafx.fxml;
-	//opens View to javafx.fxml;
-	//exports View to javafx.fxml;
+	opens Controller to javafx.fxml;
+	exports Controller to javafx.fxml;
 }

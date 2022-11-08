@@ -3,9 +3,13 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class item implements FarmInterface{
 	
@@ -30,6 +34,20 @@ public class item implements FarmInterface{
 		this.length = length;
 		this.width = width;
 		this.height = height;
+		
+		stackPane = new StackPane();
+        label = new Label();
+        label.setText(name);
+        rectangle = (new Rectangle(locationX, locationY, length, width));
+        
+        rectangle.setFill(Color.WHITE);
+        rectangle.setStroke(Color.BLACK);
+        
+        stackPane.getChildren().add(rectangle);
+        stackPane.getChildren().add(label);
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        
+        stackPane.setAlignment(Pos.TOP_CENTER);
 	}
 
 	@Override

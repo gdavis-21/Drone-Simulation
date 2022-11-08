@@ -13,7 +13,7 @@ public class itemContainer extends item{
 	private double width = 0;
 	private double height = 0;
 	
-	public itemContainer(String name, List<FarmInterface> children, double price, double locationX, double locationY, double length, double width, double height) {
+	public itemContainer(String name, double price, double locationX, double locationY, double length, double width, double height) {
 		super(name, price, locationX, locationY, length, width, height);
 		this.name = name;
 		this.price = price;
