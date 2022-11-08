@@ -18,6 +18,7 @@ public class farmVisitor implements Visitor {
 		return item.getPrice();
 	}
 	
+	
 	/*
 	 * Calculates Market Value, does not include container values
 	 * double total = 0;

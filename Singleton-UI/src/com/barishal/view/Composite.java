@@ -35,6 +35,8 @@ interface Farm{
     public void deleteItemContainer(itemContainer ItemContainer);
     public void addItem(item Item);
     public double accept(Visitor v); // [10/06] addition visitor pattern
+    public List<itemContainer> getCollectionOfItemContainers(); // [10/07] addition visitor pattern
+    public List<item> getCollectionOfItems(); // [10/07] addition visitor pattern
 }
 
 class itemContainer implements Farm{
@@ -415,6 +417,18 @@ class item implements Farm{
 	@Override
 	public double accept(Visitor v) {
 		return v.visit(this);
+	}
+
+	@Override // sorry????
+	public List<itemContainer> getCollectionOfItemContainers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override // sorry????
+	public List<item> getCollectionOfItems() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -1,4 +1,5 @@
 package com.barishal.view;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -162,6 +163,9 @@ public class Singleton {
 						buttonsLabel.setText("Item Container Commands");
 						addItemButton.setVisible(true);
 						addItemContainerButton.setVisible(true);
+						List<itemContainer> selectedItemContainerList = selectedItem.getValue().getCollectionOfItemContainers(); //list
+						List<item> selectedItemList = selectedItem.getValue().getCollectionOfItems(); //list
+
 						treeView.refresh();
 					}
 					else if (selectedItem.getValue() instanceof item) {
@@ -388,7 +392,7 @@ public class Singleton {
 					
 					if (resultOptional.isPresent()) {
 						
-						item newItem = new item(resultOptional.get(), 0, 0, 0, 100, 100, 0);
+						item newItem = new item(resultOptional.get(), 0, 0, 0, 100, 100, 0);	
 						
 						newItem.getRectangle().setFill(Color.WHITE);
 						newItem.getRectangle().setStroke(Color.BLACK);
@@ -540,6 +544,7 @@ public class Singleton {
 			}
 		};
 		
+		// Occurs when the user clicks the on the Go To Item/ Item Container
 		EventHandler<ActionEvent> onGoToItem = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				translate1.setNode(droneVisual);
