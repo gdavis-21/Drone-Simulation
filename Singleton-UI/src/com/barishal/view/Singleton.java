@@ -1,4 +1,5 @@
 package com.barishal.view;
+import java.awt.TextArea;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +37,12 @@ import javafx.util.Pair;
 public class Singleton {
 	
 	private static Singleton singleton;
+	farmVisitor v = new farmVisitor();
+	double purchasePrice;
+	double currentMarketValue = 0;
 	
 	@FXML
 	AnchorPane anchorPane;
-    
 	@FXML
 	private TreeView<Farm> treeView;
 	@FXML
@@ -68,6 +71,10 @@ public class Singleton {
     private SubScene visual;
 	@FXML
 	private ImageView droneVisual;
+	@FXML
+	private Label purchaseLabel;
+	@FXML
+	private Label currentMarketLabel;
 	
 	private Singleton() {
 		
@@ -155,17 +162,16 @@ public class Singleton {
 		// Occurs when user clicks an item on the tree view.
 		EventHandler<MouseEvent> onTreeViewClick = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
-				
 				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				double currentMarketValue;
+				double purchasePrice;
 				
 				if (selectedItem != null) {
 					if (selectedItem.getValue() instanceof itemContainer) {
 						buttonsLabel.setText("Item Container Commands");
 						addItemButton.setVisible(true);
 						addItemContainerButton.setVisible(true);
-						List<itemContainer> selectedItemContainerList = selectedItem.getValue().getCollectionOfItemContainers(); //list
-						List<item> selectedItemList = selectedItem.getValue().getCollectionOfItems(); //list
-
+						
 						treeView.refresh();
 					}
 					else if (selectedItem.getValue() instanceof item) {
@@ -175,6 +181,11 @@ public class Singleton {
 						treeView.refresh();
 					}
 				}
+				purchasePrice = selectedItem.getValue().accept(v).get(0);
+
+				currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+				purchaseLabel.setText("Purchase Price: " + purchasePrice);
+				currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
 			}
 		};
 		
@@ -303,11 +314,24 @@ public class Singleton {
 					tDialog.setTitle("Change Price");
 					tDialog.setHeaderText("Enter the New Price:");
 					tDialog.setContentText("Price:");
+					
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
 						selectedItem.getValue().changePrice(Double.parseDouble(resultOptional.get()));
 						treeView.refresh();
 					}
+				}
+				
+				if(selectedItem.getChildren() == null){
+					purchasePrice = selectedItem.getValue().accept(v).get(0);
+					currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+					purchaseLabel.setText("Purchase Price: " + purchasePrice);
+					currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
+				}else{
+					purchasePrice = selectedItem.getValue().accept(v).get(0);
+					currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+					purchaseLabel.setText("Purchase Price: " + purchasePrice);
+					currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
 				}
 			}
 		};

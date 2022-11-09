@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -45,11 +44,8 @@
 												<Button fx:id="addItemContainerButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="285.0" style="-fx-border-color: BLACK;" text="Add Item Container" />
 											</children>
 										</VBox>
-                              <TextArea fx:id="valueTextArea" editable="false" layoutX="26.0" layoutY="400.0" prefHeight="67.0" prefWidth="317.0" text="Purchase Price:&#10;Current Market Value:">
-                                 <font>
-                                    <Font size="17.0" />
-                                 </font>
-                              </TextArea>
+                              <Label fx:id="purchaseLabel" layoutX="99.0" layoutY="316.0" prefHeight="38.0" prefWidth="174.0" text="Purchase Price:" />
+                              <Label fx:id="currentMarketLabel" layoutX="99.0" layoutY="379.0" prefHeight="38.0" prefWidth="174.0" text="Current Market Value:" />
 									</children>
 								</AnchorPane>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="344.0">

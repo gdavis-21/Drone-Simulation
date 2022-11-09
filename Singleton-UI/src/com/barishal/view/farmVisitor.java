@@ -1,46 +1,45 @@
 package com.barishal.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class farmVisitor implements Visitor {
-	/*
-	 * Market Value: Total=800 Barn=(Tractor, Cow) Tractor=500 Cow=300
-	 * Purchase Value: Total=8500 Barn=(Barn, MilkStorage, Cow) Barn=5000 MilkStorage =3000 Cow=5000
-	 * 
-	 * Override Event Action to display text within fx:id="valueTextArea" 
-	 * */
+	double sum = 0;
 	
 	@Override
 	public void visit(Farm farm) {
-		// Overall Interface
 	}
 
 	@Override
-	public double visit(item item) {
-		return item.getPrice();
+	public List<Double> visit(item item) {
+		List<Double> priceList = new ArrayList<Double>();
+		double purchasePrice = item.getPrice();
+		double currentMarketValue = item.getPrice();
+		priceList.add(purchasePrice);
+		priceList.add(currentMarketValue);
+		return priceList;
 	}
 	
-	
-	/*
-	 * Calculates Market Value, does not include container values
-	 * double total = 0;
-		for(int x=0; x <=(itemContainer.getCollectionOfItemContainers().size()); x++) {
-			for(item i : itemContainer.getCollectionOfItemContainers().get(x).getCollectionOfItems()) { //grabs price of items within
-				total += i.getPrice();
-			}
-		}
-		return total ;
-	*/
-	
 	@Override
-	//Calculates Purchase Value
-	public double visit(itemContainer itemContainer) {
-		double total = 0;
-		for(int x=0; x <=(itemContainer.getCollectionOfItemContainers().size()); x++) {
-			total += itemContainer.getCollectionOfItemContainers().get(x).getPrice(); //grabs price of itemContainer
-			for(item i : itemContainer.getCollectionOfItemContainers().get(x).getCollectionOfItems()) { //grabs price of items within
-				total += i.getPrice();
+	public List<Double> visit(itemContainer itemContainer, double sum) {
+		double purchasePrice = itemContainer.getPrice();
+		double currentMarketValue = 0;
+		
+		for (item i: itemContainer.getCollectionOfItems()) {
+			purchasePrice+= i.getPrice();
+			currentMarketValue += i.getPrice();
+		}
+		for (itemContainer ic: itemContainer.getCollectionOfItemContainers()) {
+			purchasePrice+= ic.getPrice();
+			for (item i: ic.getCollectionOfItems()) {
+				currentMarketValue += i.getPrice();
 			}
 		}
-		return total;
+				
+		List<Double> priceList = new ArrayList<>();
+		priceList.add(purchasePrice);
+		priceList.add(currentMarketValue);
+		return priceList;
 	}
 
 }

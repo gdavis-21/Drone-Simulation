@@ -34,9 +34,9 @@ interface Farm{
     public void addItemContainer(itemContainer ItemContainer);
     public void deleteItemContainer(itemContainer ItemContainer);
     public void addItem(item Item);
-    public double accept(Visitor v); // [10/06] addition visitor pattern
-    public List<itemContainer> getCollectionOfItemContainers(); // [10/07] addition visitor pattern
-    public List<item> getCollectionOfItems(); // [10/07] addition visitor pattern
+    public List<Double> accept(Visitor v);
+    public List<itemContainer> getCollectionOfItemContainers();
+    public List<item> getCollectionOfItems();
 }
 
 class itemContainer implements Farm{
@@ -235,8 +235,8 @@ class itemContainer implements Farm{
 	}
 
 	@Override
-	public double accept(Visitor v) {
-		return v.visit(this);
+	public List<Double> accept(Visitor v) {
+		return v.visit(this, 0.0);
 	}
 }
 
@@ -415,7 +415,7 @@ class item implements Farm{
 	}
 	
 	@Override
-	public double accept(Visitor v) {
+	public List<Double> accept(Visitor v) {
 		return v.visit(this);
 	}
 

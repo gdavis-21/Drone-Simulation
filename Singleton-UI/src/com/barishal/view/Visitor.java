@@ -1,7 +1,9 @@
 package com.barishal.view;
+import java.util.List;
 
 public interface Visitor {
 	void visit(Farm farm); //overall interface
-	double visit(item item);
-	double visit(itemContainer itemContainer);
+	
+	List<Double> visit(item item);
+	List<Double> visit(itemContainer itemContainer, double sum);
 }
