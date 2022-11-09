@@ -26,6 +26,7 @@ public interface FarmInterface {
 	    double getLength();
 	    double getWidth();
 	    double getHeight();
+	    
 	    Rectangle getRectangle();
 	    List<item> getItems();
 	    List<itemContainer> getItemContainers();

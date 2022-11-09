@@ -1,29 +1,38 @@
 package Controller;
+
 import java.util.List;
 import java.util.Optional;
 
-import javafx.animation.*;
+import Model.FarmInterface;
+import Model.item;
+import Model.itemContainer;
+import javafx.animation.PathTransition;
+import javafx.animation.TranslateTransition;
 import javafx.animation.PathTransition.OrientationType;
-import javafx.event.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
-import javafx.scene.control.ButtonBar.*;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import Model.*;
 
 public class DashboardController {
 
-	
 	@FXML
 	AnchorPane anchorPane;
     
@@ -56,30 +65,18 @@ public class DashboardController {
 	@FXML
 	private ImageView droneVisual;
 	
-	private DashboardController() {
-		
-	}
-
-	// Called after the Constructor, cannot interact with @FXML objects inside Constructor.
 	@FXML
 	public void initialize() {
-		
+		//get singleton instance of the view
 		Singleton.getInstance();
 		
-		// ############# ############################# Sample Data ##########################################
-		
+		//##################################Tree View Initializations###################################
 		TreeItem<FarmInterface> root = new TreeItem<FarmInterface>(new itemContainer("Root", 0, 0, 0, 0, 0, 0));
-		
 		TreeItem<FarmInterface> commandCenter = new TreeItem<FarmInterface>(new itemContainer("Command Center", 0, 300, 50, 100, 100, 0));
-		
 		TreeItem<FarmInterface> drone = new TreeItem<FarmInterface>(new item("Drone", 0, 330, 75, 40, 40, 0));
-		
 		commandCenter.setExpanded(true);
 		
-		root.getChildren().add(commandCenter);
-		
-		commandCenter.getChildren().add(drone);
-		
+		//Add Tree items to  
 		anchorPane.getChildren().add(commandCenter.getValue().getStackPane());
 		anchorPane.getChildren().add(drone.getValue().getStackPane());
 		commandCenter.getValue().getStackPane().setTranslateX(commandCenter.getValue().getLocationX());
@@ -126,8 +123,6 @@ public class DashboardController {
 			}
 		});
 		
-		// ########################################## Event Handlers ##########################################
-		
 		// Occurs when user clicks an item on the tree view.
 		EventHandler<MouseEvent> onTreeViewClick = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
@@ -148,6 +143,7 @@ public class DashboardController {
 						buttonsLabel.setText("Item Commands");
 						addItemButton.setVisible(false);
 						addItemContainerButton.setVisible(false);
+						
 						treeView.refresh();
 					}
 				}
@@ -506,8 +502,6 @@ public class DashboardController {
 		};
 		
 		
-		// ########################################## Event Handlers ##########################################
-		
 		treeView.setOnMouseClicked(onTreeViewClick);
 		renameButton.setOnAction(onRename);
 		changeLocationButton.setOnAction(onChangeLocation);
@@ -520,10 +514,10 @@ public class DashboardController {
 		goToHomeButton.setOnAction(onGoToHome);
 		goToItemButton.setOnAction(onGoToItem);
 		
-
+		root.getChildren().add(commandCenter);
+		
+		commandCenter.getChildren().add(drone);
 	    root.setExpanded(true);
 	    treeView.setRoot(root);
-		
 	}
-	
 }
