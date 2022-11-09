@@ -453,8 +453,7 @@ public class DashboardController {
 			public void traverseFarm() {
 				PathTransition scantransition = new PathTransition();
 				
-				path.getElements().add(new MoveTo(-200, -240)); 
-				path.getElements().add(new LineTo(-200, -240)); // top left
+				path.getElements().add(new MoveTo(-200, -240)); // top left
 				path.getElements().add(new LineTo(-200, 350)); // bottom left
 				path.getElements().add(new LineTo(-100, 350)); // bottom at x = 0
 				path.getElements().add(new LineTo(-100, -240)); // top at x = 0
