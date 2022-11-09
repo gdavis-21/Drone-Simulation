@@ -36,4 +36,9 @@ public class itemContainer extends item{
 	public List<FarmInterface> getList(){
 		return collectionOfItems;
 	}
+	
+	@Override
+	public List<Double> accept(VisitorInterface v){
+		return v.visit(this, 0.0);
+	}
 }

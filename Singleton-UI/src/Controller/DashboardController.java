@@ -1,53 +1,34 @@
-<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 package Controller;
 
-=======
-package com.barishal.view;
 import java.awt.TextArea;
->>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import Model.FarmInterface;
-import Model.item;
-import Model.itemContainer;
-import javafx.animation.PathTransition;
+import Model.*;
 import javafx.animation.TranslateTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.*;
+import javafx.event.*;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.util.Duration;
-import javafx.util.Pair;
+import javafx.scene.shape.*;
+import javafx.scene.text.*;
+import javafx.util.*;
 
-<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 public class DashboardController {
-
-=======
-public class Singleton {
 	
-	private static Singleton singleton;
-	farmVisitor v = new farmVisitor();
+	VisitorController v = new VisitorController();
+	
 	double purchasePrice;
+	
 	double currentMarketValue = 0;
 	
->>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 	@FXML
 	AnchorPane anchorPane;
 	@FXML
@@ -90,8 +71,8 @@ public class Singleton {
 		
 		//##################################Tree View Initializations###################################
 		TreeItem<FarmInterface> root = new TreeItem<FarmInterface>(new itemContainer("Root", 0, 0, 0, 0, 0, 0));
-		TreeItem<FarmInterface> commandCenter = new TreeItem<FarmInterface>(new itemContainer("Command Center", 0, 300, 50, 100, 100, 0));
-		TreeItem<FarmInterface> drone = new TreeItem<FarmInterface>(new item("Drone", 0, 330, 75, 40, 40, 0));
+		TreeItem<FarmInterface> commandCenter = new TreeItem<FarmInterface>(new itemContainer("Command Center", 3000, 300, 50, 100, 100, 0));
+		TreeItem<FarmInterface> drone = new TreeItem<FarmInterface>(new item("Drone", 250, 330, 75, 40, 40, 0));
 		commandCenter.setExpanded(true);
 		
 		//Add Tree items to  
@@ -152,27 +133,20 @@ public class Singleton {
 		// Occurs when user clicks an item on the tree view.
 		EventHandler<MouseEvent> onTreeViewClick = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
-<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 				
 				TreeItem<FarmInterface> selectedItem = treeView.getSelectionModel().getSelectedItem();
-=======
-				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
 				double currentMarketValue;
 				double purchasePrice;
->>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 				
 				if (selectedItem != null) {
 					if (selectedItem.getValue() instanceof itemContainer) {
 						buttonsLabel.setText("Item Container Commands");
 						addItemButton.setVisible(true);
 						addItemContainerButton.setVisible(true);
-<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
+						
 						List<itemContainer> selectedItemContainerList = selectedItem.getValue().getItemContainers(); //list
 						List<item> selectedItemList = selectedItem.getValue().getItems(); //list
 
-=======
-						
->>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 						treeView.refresh();
 					}
 					else if (selectedItem.getValue() instanceof item) {

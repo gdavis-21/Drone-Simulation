@@ -3,7 +3,9 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controller.VisitorController;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -49,6 +51,8 @@ public class item implements FarmInterface{
         
         stackPane.setAlignment(Pos.TOP_CENTER);
 	}
+	
+	//############################# SET REGION #############################
 
 	@Override
 	public void changeName(String newName) {
@@ -102,6 +106,8 @@ public class item implements FarmInterface{
 		this.label = newLabel;
 		
 	}
+	
+	//############################# GET REGION #############################
 
 	@Override
 	public String getName() {
@@ -163,8 +169,15 @@ public class item implements FarmInterface{
 		return label;
 	}
 	
+	//############################# ETC REGION #############################
+	
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public List<Double> accept(VisitorInterface v) {
+		return v.visit(this);
 	}
 }

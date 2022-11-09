@@ -1,9 +1,12 @@
 package Model;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import java.util.List;
+
+import Controller.VisitorController;
 
 public interface FarmInterface {
 	
@@ -35,6 +38,7 @@ public interface FarmInterface {
 		
 		//Ect....
 	    String toString();
+	    List<Double> accept(VisitorInterface v);
 		
 	    /*
 	    public void addItemContainer(itemContainer ItemContainer);
