@@ -1,5 +1,10 @@
+<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 package Controller;
 
+=======
+package com.barishal.view;
+import java.awt.TextArea;
+>>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +36,20 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 public class DashboardController {
 
+=======
+public class Singleton {
+	
+	private static Singleton singleton;
+	farmVisitor v = new farmVisitor();
+	double purchasePrice;
+	double currentMarketValue = 0;
+	
+>>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 	@FXML
 	AnchorPane anchorPane;
-    
 	@FXML
 	private TreeView<FarmInterface> treeView;
 	@FXML
@@ -64,6 +78,10 @@ public class DashboardController {
     private SubScene visual;
 	@FXML
 	private ImageView droneVisual;
+	@FXML
+	private Label purchaseLabel;
+	@FXML
+	private Label currentMarketLabel;
 	
 	@FXML
 	public void initialize() {
@@ -134,17 +152,27 @@ public class DashboardController {
 		// Occurs when user clicks an item on the tree view.
 		EventHandler<MouseEvent> onTreeViewClick = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
+<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 				
 				TreeItem<FarmInterface> selectedItem = treeView.getSelectionModel().getSelectedItem();
+=======
+				TreeItem<Farm> selectedItem = treeView.getSelectionModel().getSelectedItem();
+				double currentMarketValue;
+				double purchasePrice;
+>>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 				
 				if (selectedItem != null) {
 					if (selectedItem.getValue() instanceof itemContainer) {
 						buttonsLabel.setText("Item Container Commands");
 						addItemButton.setVisible(true);
 						addItemContainerButton.setVisible(true);
+<<<<<<< HEAD:Singleton-UI/src/Controller/DashboardController.java
 						List<itemContainer> selectedItemContainerList = selectedItem.getValue().getItemContainers(); //list
 						List<item> selectedItemList = selectedItem.getValue().getItems(); //list
 
+=======
+						
+>>>>>>> d86d02a3601d52d705eef56012606ed1a4985233:Singleton-UI/src/com/barishal/view/Singleton.java
 						treeView.refresh();
 					}
 					else if (selectedItem.getValue() instanceof item) {
@@ -155,6 +183,11 @@ public class DashboardController {
 						treeView.refresh();
 					}
 				}
+				purchasePrice = selectedItem.getValue().accept(v).get(0);
+
+				currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+				purchaseLabel.setText("Purchase Price: " + purchasePrice);
+				currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
 			}
 		};
 		
@@ -257,11 +290,24 @@ public class DashboardController {
 					tDialog.setTitle("Change Price");
 					tDialog.setHeaderText("Enter the New Price:");
 					tDialog.setContentText("Price:");
+					
 					Optional<String> resultOptional = tDialog.showAndWait();
 					if (resultOptional.isPresent()) {
 						selectedItem.getValue().changePrice(Double.parseDouble(resultOptional.get()));
 						treeView.refresh();
 					}
+				}
+				
+				if(selectedItem.getChildren() == null){
+					purchasePrice = selectedItem.getValue().accept(v).get(0);
+					currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+					purchaseLabel.setText("Purchase Price: " + purchasePrice);
+					currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
+				}else{
+					purchasePrice = selectedItem.getValue().accept(v).get(0);
+					currentMarketValue =  selectedItem.getValue().accept(v).get(1);
+					purchaseLabel.setText("Purchase Price: " + purchasePrice);
+					currentMarketLabel.setText("Current Market Value: " + currentMarketValue);
 				}
 			}
 		};

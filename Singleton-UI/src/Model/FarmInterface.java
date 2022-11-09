@@ -34,7 +34,8 @@ public interface FarmInterface {
 		Label getLabel();
 		
 		//Ect....
-	    
+	    String toString();
+		
 	    /*
 	    public void addItemContainer(itemContainer ItemContainer);
 	    public void deleteItemContainer(itemContainer ItemContainer);
