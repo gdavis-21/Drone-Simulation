@@ -162,4 +162,9 @@ public class item implements FarmInterface{
 	public Label getLabel() {
 		return label;
 	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

@@ -84,6 +84,7 @@ public class DashboardController {
 		
 		drone.getValue().getStackPane().setTranslateX(drone.getValue().getLocationX());
 		drone.getValue().getStackPane().setTranslateY(drone.getValue().getLocationY());
+		drone.getValue().getStackPane().setVisible(false);
 		
 		droneVisual.toFront();
 		
@@ -95,7 +96,10 @@ public class DashboardController {
 				changePriceButton.setDisable(true);
 				changeDimensionButton.setDisable(true);
 				deleteButton.setDisable(true);
-				goToItemButton.setDisable(false);
+				
+				goToItemButton.setVisible(false);
+				
+				
 			}
 			else if (selectedItem.getValue().getName().equalsIgnoreCase("Command Center")) {
 				renameButton.setDisable(true);
@@ -103,15 +107,18 @@ public class DashboardController {
 				changePriceButton.setDisable(false);
 				changeDimensionButton.setDisable(false);
 				deleteButton.setDisable(true);
-				goToItemButton.setDisable(false);
+				
+				goToItemButton.setVisible(true);
+				
 			}
 			else if (selectedItem.getValue().getName().equalsIgnoreCase("Drone")) {
 				renameButton.setDisable(true);
-				changeLocationButton.setDisable(false);
+				changeLocationButton.setDisable(true);
 				changePriceButton.setDisable(false);
 				changeDimensionButton.setDisable(true);
 				deleteButton.setDisable(true);
-				goToItemButton.setDisable(true);
+				
+				goToItemButton.setVisible(false);
 			}
 			else {
 				renameButton.setDisable(false);
@@ -119,7 +126,8 @@ public class DashboardController {
 				changePriceButton.setDisable(false);
 				changeDimensionButton.setDisable(false);
 				deleteButton.setDisable(false);
-				goToItemButton.setDisable(false);
+				
+				goToItemButton.setVisible(true);
 			}
 		});
 		
@@ -344,7 +352,7 @@ public class DashboardController {
 						newItem.getRectangle().setStroke(Color.BLACK);
 						newItem.getRectangle().setStrokeWidth(1);
 						
-						newItem.changeLabel(buttonsLabel);
+						newItem.changeLabel(new Label());
 						newItem.getLabel().setText(resultOptional.get());
 						newItem.getLabel().setFont(Font.font("Verdana", FontWeight.BOLD, 10));
 						
@@ -440,13 +448,13 @@ public class DashboardController {
 				translate.setOnFinished(e -> {
 					traverseFarm();
 				});
-				
 			}
 			
 			public void traverseFarm() {
 				PathTransition scantransition = new PathTransition();
 				
-				path.getElements().add(new MoveTo(-200, -240)); // top left
+				path.getElements().add(new MoveTo(-200, -240)); 
+				path.getElements().add(new LineTo(-200, -240)); // top left
 				path.getElements().add(new LineTo(-200, 350)); // bottom left
 				path.getElements().add(new LineTo(-100, 350)); // bottom at x = 0
 				path.getElements().add(new LineTo(-100, -240)); // top at x = 0
@@ -511,6 +519,7 @@ public class DashboardController {
 		addItemContainerButton.setOnAction(onAddItemContainer);
 		deleteButton.setOnAction(onDelete);
 		scanFarmButton.setOnAction(onScan);
+		
 		goToHomeButton.setOnAction(onGoToHome);
 		goToItemButton.setOnAction(onGoToItem);
 		

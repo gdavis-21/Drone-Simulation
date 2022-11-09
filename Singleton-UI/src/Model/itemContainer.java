@@ -1,10 +1,11 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class itemContainer extends item{
 	
-	List<FarmInterface> collectionOfItems;
+	List<FarmInterface> collectionOfItems = new ArrayList<FarmInterface>();
 	private String name = "";
 	private double price = 0;
 	private double locationX = 0;
