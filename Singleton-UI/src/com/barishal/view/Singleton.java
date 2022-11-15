@@ -67,6 +67,10 @@ public class Singleton {
 	private Button goToItemButton;
 	@FXML
 	private Button goToHomeButton;
+	@FXML
+	private Button launchSimulatorButton;
+	@FXML
+	private Button launchDroneButton;
     @FXML
     private SubScene visual;
 	@FXML

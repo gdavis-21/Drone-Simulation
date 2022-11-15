@@ -55,9 +55,11 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
-										<Button fx:id="goToItemButton" layoutX="29.0" layoutY="39.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="128.0" text="Go to Item" />
-										<Button fx:id="scanFarmButton" layoutX="29.0" layoutY="96.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="128.0" text="Scan Farm" />
-										<Button fx:id="goToHomeButton" layoutX="192.0" layoutY="71.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="128.0" text="Go To Home" />
+										<Button fx:id="goToItemButton" layoutX="49.0" layoutY="33.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="128.0" text="Go to Item" />
+										<Button fx:id="scanFarmButton" layoutX="113.0" layoutY="68.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="128.0" text="Scan Farm" />
+										<Button fx:id="goToHomeButton" layoutX="192.0" layoutY="33.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="128.0" text="Go To Home" />
+                              <Button id="launchSimulatorButton" fx:id="goToHomeButton1" layoutX="49.0" layoutY="146.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="128.0" text="Launch Simulator" />
+                              <Button id="launchDroneButton" fx:id="goToHomeButton11" layoutX="192.0" layoutY="146.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="128.0" text="Launch Drone" />
 									</children>
 								</AnchorPane>
 							</items>
